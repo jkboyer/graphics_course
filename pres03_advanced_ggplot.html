@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Advanced ggplot2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jan Boyer | jboyer@azgfd.gov" />
+    <meta name="date" content="2019-07-25" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: left, bottom, title-slide
+
+# Advanced <code>ggplot2</code>
+## Scientific Graphics with <code>ggplot2</code> in R
+### Jan Boyer | <a href="mailto:jboyer@azgfd.gov">jboyer@azgfd.gov</a>
+### 2019-07-25
+
+---
+
+
+
+
+
+
+
+
+
+&lt;img src="./graphics_slides_files/example_figs/whitefish_movement.PNG" width="68%" style="display: block; margin: auto;" /&gt;
+---
+
+class:inverse
+#Annotation
+##`paste()`
+
+##`expression()`
+
+##`geom_...()` (annotation geoms)
+
+---
+&lt;img src="./graphics_slides_files/example_figs/pres_RBT_condition_1999_2018.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="./graphics_slides_files/example_figs/length_RKM.jpg" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+class:inverse
+#Exercise: annotation
+
+Add fancy text and annotation to your plot. Try to add
+1. axis title with symbols, subscript, or similar
+2. annotate shapes, lines, or text within plot panel
+3. add statistics annotation (model line, equation, or similar)
+
+---
+class:inverse
+#Secondary axes
+
+##`sec.axis()`
+##`dup.axis()`
+
+---
+&lt;img src="./graphics_slides_files/example_figs/citsci_agfd_length_freq.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse
+#Complex Layouts
+##Multipanel and inset graphs
+##`install.packages(cowplot)`
+
+##`plot_grid()`
+##`ggdraw()`
+
+---
+&lt;img src="./graphics_slides_files/example_figs/recaptures_growth.png" width="60%" style="display: block; margin: auto;" /&gt;
+---
+&lt;img src="./graphics_slides_files/example_figs/lake_mead_elevations_m.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+---
+class:inverse
+#Exercise
+
+Multipanel and inset graphs
+
+Combine several of your graphs to make a
+1. multipanel graph
+2. inset graph
+
+---
+class:inverse
+#Facets revisited: 
+##useful for hacks and workarounds
+
+---
+&lt;img src="./graphics_slides_files/example_figs/percent_native.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse
+#Themes revisited
+
+- theme packages
+
+- writing/modifying your own theme
+
+---
+background-image: url(https://raw.githubusercontent.com/hrbrmstr/hrbrthemes/master/man/figures/README-sc-1.png)
+background-size: contain
+---
+&lt;img src="./graphics_slides_files/example_figs/annual_discharge_cms_phantom.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+class:inverse
+#Exercise
+
+Make a custom theme
+
+1. Pick your favorite ggplot theme, and copy/paste its code from the ggplot2 github page into a new r script
+2. Modify several features of the theme to customize it 
+3. Save in a separate r script `custom_theme_function.r`
+4. use `source("./functions/custom_theme_function.r")` to load your theme and use it in a plot!
+
+---
+class: inverse
+#Automating plot creation:
+
+#`for` loops
+
+---
+background-image:url("graphics_slides_files/ggplot_extensions.PNG")
+#[Extensions](http://www.ggplot2-exts.org/gallery/)
+
+---
+class:inverse
+#Exercise: Finalize your plots
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "idea",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  /* Replace <script> tags in slides area to make them executable
+   *
+   * Runs after post-processing of markdown source into slides and replaces only
+   * <script>s on the last slide of continued slides using the .has-continuation
+   * class added by xaringan. Finally, any <script>s in the slides area that
+   * aren't executed are commented out.
+   */
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container:not(.has-continuation) script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+  var scriptsNotExecuted = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container.has-continuation script'
+  );
+  if (!scriptsNotExecuted.length) return;
+  for (var i = 0; i < scriptsNotExecuted.length; i++) {
+    var comment = document.createComment(scriptsNotExecuted[i].outerHTML)
+    scriptsNotExecuted[i].parentElement.replaceChild(comment, scriptsNotExecuted[i])
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

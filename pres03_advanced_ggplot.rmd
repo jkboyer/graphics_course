@@ -67,9 +67,6 @@ library(dplyr)
 knitr::include_graphics("./graphics_slides_files/example_figs/whitefish_movement.PNG")
 ```
 ---
-background-image: url(https://i.pinimg.com/736x/aa/95/9d/aa959d6be07333834c540a138fecada9--line-chart-data-visualization.jpg)
-background-size:contain
----
 
 class:inverse
 #Annotation
