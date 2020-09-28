@@ -1,0 +1,33 @@
+xaringan-themer	google_font	library	mono_accent
+load_packages_and_data	library	theme_grey	theme_set
+base_example_plot	~	iris	plot
+lattice_example_plot	~	iris	require	xyplot
+unnamed-chunk-1	theme_grey	theme_set
+ggplot_example_plot	aes	geom_point	ggplot	iris	Petal.Width	require	Sepal.Length
+unnamed-chunk-2	::
+unnamed-chunk-3	::
+unnamed-chunk-4	::
+unnamed-chunk-5	::
+unnamed-chunk-6	::
+unnamed-chunk-7	::
+unnamed-chunk-8	bind_rows	df1	df2	rbind	require
+unnamed-chunk-9	%>%	df1	df2	full_join	inner_join	left_join	merge	right_join
+unnamed-chunk-10	::	as.Date	c	catch	date	gather	rep	rpois	site	species	tibble
+unnamed-chunk-11	::	d.long
+wide_long_conversion	data	gather	require
+unnamed-chunk-12	glimpse	iris	str
+unnamed-chunk-13	$	$<-	%>%	as.character	as.Date	as.factor	as.integer	as.numeric	as.POSIXct	mutate	weight
+unnamed-chunk-14	$	$<-	%>%	c	factor	levels	mutate	Species
+unnamed-chunk-15	theme_grey	theme_set
+simpleplot_1a	ggplot	iris
+simpleplot_1a-out	ggplot	iris
+simpleplot_1b	aes	ggplot	iris	Sepal.Length	Sepal.Width
+simpleplot_1b-out	aes	ggplot	iris	Sepal.Length	Sepal.Width
+simpleplot_1c	aes	geom_point	ggplot	iris	Sepal.Length	Sepal.Width
+simpleplot_1c-out	aes	geom_point	ggplot	iris	Sepal.Length	Sepal.Width
+simpleplot_1d	aes	geom_point	ggplot	iris	Sepal.Length	Sepal.Width	Species
+simpleplot_1d-out	aes	geom_point	ggplot	iris	Sepal.Length	Sepal.Width	Species
+simpleplot_1e	aes	geom_point	ggplot	iris	p.minimal	Sepal.Length	Sepal.Width	Species
+unnamed-chunk-16	$	$<-	aes	factor	gear	geom_point	ggplot	mpg	wt
+unnamed-chunk-17	$	$<-	aes	element_text	factor	gear	geom_point	ggplot	ggtitle	mpg	plot_grid	require	theme	theme_bw	theme_classic	theme_light	theme_minimal	wt
+unnamed-chunk-18	aes	gear	geom_point	ggplot	mpg	mtcars	theme_minimal	theme_set	wt

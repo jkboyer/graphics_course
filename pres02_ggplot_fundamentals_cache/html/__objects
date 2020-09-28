@@ -1,0 +1,56 @@
+xaringan-themer	
+load_packages_and_data	.Random.seed
+first-plot1a	
+first-plot1a-out	
+first-plot1b	
+first-plot1b-out	
+first-plot1c	
+first-plot1c-out	
+first-plot1d	
+first-plot1d-out	
+first-plot1e	
+first-plot1e-out	
+first-plot1f	
+first-plot1f-out	
+first-plot1f2	
+first-plot1f2-out	
+first-plot1g	
+first-plot1g-out	
+common-plot-types	d	df	gbar	gboxplot	gdensity	ghist	gline	gpoint	gpointrange	graster
+errorbar_geoms	df	gerror	gerrorh	glinerange
+position_adjustments	
+adjust-position	gdodge	gfill	gstack	mpg1
+unnamed-chunk-1	
+common-aesthetics	aes_alpha	aes_color	aes_fill	aes_group	aes_ltp	aes_pos	aes_shape	aes_size
+unnamed-chunk-2	
+unnamed-chunk-3	
+unnamed-chunk-4	
+unnamed-chunk-5	
+unnamed-chunk-6	
+unnamed-chunk-7	
+unnamed-chunk-8	
+unnamed-chunk-9	
+unnamed-chunk-10	
+facetwrap_1a	
+facetwrap_1a-out	
+facetwrap_2b	
+facetwrap_3c	
+facetgrid_1	
+facetgrid_1-out	
+facetgrid_2	
+facetgrid_2-out	
+facetgrid_3	
+facetgrid_3-out	
+facetgrid_4	
+facetgrid_4-out	
+facetgrid_5	
+facetgrid_5-out	
+unnamed-chunk-11	
+unnamed-chunk-12	
+unnamed-chunk-13	bw	classic	light	minimal	mtcars	p
+unnamed-chunk-14	
+unnamed-chunk-15	
+unnamed-chunk-16	
+unnamed-chunk-17	
+unnamed-chunk-18	
+unnamed-chunk-19	

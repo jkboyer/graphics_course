@@ -1,0 +1,33 @@
+xaringan-themer	
+load_packages_and_data	.Random.seed
+base_example_plot	
+lattice_example_plot	
+unnamed-chunk-1	
+ggplot_example_plot	
+unnamed-chunk-2	
+unnamed-chunk-3	
+unnamed-chunk-4	
+unnamed-chunk-5	
+unnamed-chunk-6	
+unnamed-chunk-7	
+unnamed-chunk-8	
+unnamed-chunk-9	
+unnamed-chunk-10	d.long	d.wide
+unnamed-chunk-11	
+wide_long_conversion	
+unnamed-chunk-12	
+unnamed-chunk-13	
+unnamed-chunk-14	iris
+unnamed-chunk-15	
+simpleplot_1a	
+simpleplot_1a-out	
+simpleplot_1b	
+simpleplot_1b-out	
+simpleplot_1c	
+simpleplot_1c-out	
+simpleplot_1d	
+simpleplot_1d-out	
+simpleplot_1e	
+unnamed-chunk-16	mtcars
+unnamed-chunk-17	bw	classic	light	minimal	mtcars	p
+unnamed-chunk-18	

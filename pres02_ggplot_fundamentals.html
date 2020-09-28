@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>ggplot2: layer by layer</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jan Boyer | jboyer@azgfd.gov" />
+    <meta name="date" content="2019-07-25" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: left, bottom, title-slide
+
+# <code>ggplot2</code>: layer by layer
+## Scientific Graphics with <code>ggplot2</code> in R
+### Jan Boyer | <a href="mailto:jboyer@azgfd.gov">jboyer@azgfd.gov</a>
+### 2019-07-25
+
+---
+
+
+
+
+
+
+
+
+###`data`
+###`aes`
+###`geom`
+###`stat`
+###`coord`
+###`scale`
+###`facet` 
+###`theme` 
+
+---
+layout: true
+### A More complex ggplot
+---
+
+.left-code[
+
+```r
+ggplot(msleep)
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1a-out-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(msleep,
+* aes(x = bodywt, 
+*     y = sleep_total)) 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1b-out-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(msleep,
+  aes(x = bodywt,
+      y = sleep_total)) +
+* geom_point() 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1c-out-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(msleep,
+  aes(x = bodywt,
+      y = sleep_total)) +
+  geom_point() +
+* scale_x_log10("Weight (kg)") + 
+* scale_y_continuous("Hrs Sleep", 
+*   limits = c(0, 20))   
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1d-out-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(msleep,
+  aes(x = bodywt,
+      y = sleep_total)) +
+  geom_point() +
+  scale_x_log10("Weight (kg)") +
+  scale_y_continuous(
+    limits = c(0, 20),
+    "Hours Sleep") +
+* stat_smooth(method = "lm") 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1e-out-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(msleep,
+  aes(x = bodywt,
+      y = sleep_total)) +
+  geom_point() +
+  scale_x_log10("Weight (kg)") +
+  scale_y_continuous(
+    limits = c(0, 20),
+    "Hours Sleep") +
+  stat_smooth(method = "lm") + 
+* facet_wrap(~vore) 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1f-out-1.png" width="100%" /&gt;
+]
+
+---
+
+
+.left-code[
+
+```r
+*ggplot(msleep[!is.na(msleep$vore),],  
+  aes(x = bodywt,
+      y = sleep_total)) +
+  geom_point() +
+  scale_x_log10("Weight (kg)") +
+  scale_y_continuous(
+    limits = c(0, 20),
+    "Hours Sleep") +
+  stat_smooth(method = "lm") + 
+  facet_wrap(~vore) 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1f2-out-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(msleep[!is.na(msleep$vore),]) + 
+  aes(x = bodywt,
+      y = sleep_total) +
+  geom_point() +
+  scale_x_log10("Weight (kg)") +
+  scale_y_continuous(
+    limits = c(0, 20),
+    "Hours Sleep") +
+  stat_smooth(method = "lm") + 
+  facet_wrap(~vore) +
+* theme_minimal(base_family = "serif") 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1g-out-1.png" width="100%" /&gt;
+]
+
+
+---
+layout:false
+###`data` can be subset or aggregated within plot code
+###`aes`
+###`geom`
+###`stat`
+###`coord`
+###`scale` 
+###`facet` 
+###`theme`
+
+???
+live coding:
+
+subset in base and tidyverse
+
+summarize/group_by in tidyverse
+
+---
+###`data`
+###`aes`
+###`geom`etric objects display data   
+###`stat`istics display transformed or summarized data
+###`coord`
+###`scale` 
+###`facet` 
+###`theme`
+
+---
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/common-plot-types-1.png" width="100%" /&gt;
+
+
+[All geoms and stats](https://ggplot2.tidyverse.org/reference/index.html#section-layer-geoms)
+
+???
+
+live coding: 
+
+different geoms have different required aes (x, y, only x, ymin, ymax etc.)
+usually logical, and documentation with tell you if needed
+
+discrete/continuous: some will take either, others require one type
+factor or cut to bin continuous data into discrete
+
+multiple geoms on one plot
+
+---
+
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/errorbar_geoms-1.png" width="100%" /&gt;
+
+
+[All geoms and stats](https://ggplot2.tidyverse.org/reference/index.html#section-layer-geoms)
+
+???
+
+live coding
+
+df &lt;- data.frame(trt = factor(1:3),
+  resp = c(1, 5, 3),
+  upper = c(1.1, 5.3, 3.3),
+  lower = c(0.8, 4.6, 2.4))
+
+ggplot(df, aes(x = trt, y = resp)) +
+geom_col() +
+geom_errorbar(aes(ymin = lower, ymax = upper),
+width = 0.3)
+
+order (reverse order, show how error bars hidden)
+
+---
+#Adjust position
+
+```r
+ggplot(iris, aes(Species, Sepal.Length)) +
+  geom_jitter() 
+```
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/position_adjustments-1.png" width="40%" /&gt;
+
+
+---
+#Adjust position
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/adjust-position-1.png" width="100%" /&gt;
+
+
+
+???
+
+live coding4
+
+jitter for points `geom_jitter(width = 0.25, height = 1)`
+caution: best for exploratory, NOT final plots
+
+dodge - useful for bar/col and boxplot
+`ggplot(mtcars, aes(factor(cyl), fill = factor(vs))) +`
+  `geom_bar(position = position_dodge())`
+
+`position_dodge(preserve = "single")`
+if using errorbars, must dodge those too and define width!
+`p + geom_linerange(`
+  `aes(ymin = y - 1, ymax = y + 1),`
+  `position = position_dodge(width = 0.9))`
+
+stack: stacks bars. good for comparing numbers
+
+
+fill: like stack, but makes each bar same height 
+good for comparing proportions
+
+---
+
+#stat: summarized data
+
+
+```r
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  stat_smooth()
+```
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/unnamed-chunk-1-1.png" width="360" /&gt;
+
+[All geoms and stats](https://ggplot2.tidyverse.org/reference/index.html#section-layer-geoms)
+???
+options
+
+`stat_smooth(method = "lm", se = "false")`
+
+loess, gam, lm
+
+
+---
+class: inverse
+#Exercise: plot your data
+Use one or more of the geoms and stats we learned about to start a plot you want to make with your data
+
+It's ok to start several plots
+
+Make all plots objects in your r environment
+`my.plot &lt;- ggplot(data, aes(...`  
+`my.plot`
+
+Don't worry if they are ugly or still missing features, we will continue working on these figures as we learn more 
+
+---
+###`data`
+###`aes`thetic mappings map variables to x, y, color, shape, etc.
+###`geom`
+###`stat`
+###`coord`
+###`scale` 
+###`facet` 
+###`theme`
+---
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/common-aesthetics-1.png" width="100%" /&gt;
+
+[all aesthetics](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html)
+
+???
+Live coding
+
+Basic use
+
+color vs. fill
+names or hex codes
+
+group vs. others)color, linetype (ChickWeight
+ggplot(ChickWeight, 
+       aes(x = Time, y = weight,
+           group = Chick)) + #&lt;&lt;
+         geom_line()
+
+aes() can go in ggplot() or geom_...()
+Put in ggplot if you want to apply to all geoms, geom if one geom
+
+---
+###Change appearance...
+.pull-left[
+###of entire geom
+
+```r
+ggplot(mpg, 
+       aes(x = displ, y = cty)) + 
+*geom_point(color = "blue")
+```
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/unnamed-chunk-2-1.png" width="99%" /&gt;
+]
+
+.pull-right[
+###based on variable
+
+```r
+ggplot(mpg, 
+*      aes(x = displ, y = cty,
+*          color = drv)) +
+geom_point()
+```
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/unnamed-chunk-3-1.png" width="99%" /&gt;
+]
+
+???
+
+We'll get to changing colors in scale section
+
+Live coding 
+
+inside vs. outside aes is COMMON ERROR
+
+show errors if you do this wrong
+
+---
+class: inverse
+#Exercise: `aes()` aesthetic modifications
+
+Use what we learned about `aes` to modify your graph
+
+- make at least on variable-based aesthetics change
+- at least one aesthetics change that changes the appearance of an entire geom (i.e., not based on a variable)
+
+Copy/paste your last plot, and give new name
+
+---
+###`data`
+###`aes`
+###`geom`
+###`stat`
+###`coord`inates define coordinate system
+###`scale` defines axes
+###`facet` 
+###`theme`
+
+---
+graph with customized scales (log and custom color scale, legend)
+
+---
+#coordinate systems
+
+`coord_cartesian()` 
+
+`coord_fixed()`  
+`coord_polar()`  
+`coord_map()`  
+
+???
+Usually don't need to specify, R can figure this out
+
+Use Coord for limits - does not crop data!
+
+live coding: use coord for xlim and ylim
+
+---
+#Axis scales
+
+- continous `scale_x_continous()`
+- log transformed `scale_y_log10()`
+- square root transform `scale_x_sqrt()` 
+
+- discrete `scale_y_discrete()`
+
+- date/datetime `scale_x_date()`, `scale_x_datetime()`
+
+???
+
+Live coding:
+can put limits in here, BUT, it crops data (demonstrate)
+
+
+Limits, axis breaks, axis labels
+
+---
+#Axis Expansion
+
+
+```r
+ggplot(mpg, aes(fl, fill = drv)) + 
+  geom_bar()
+```
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/unnamed-chunk-4-1.png" width="360" /&gt;
+
+---
+#Axis Expansion
+
+```r
+ggplot(mpg, aes(fl, fill = drv)) + 
+  geom_bar() +
+* coord_cartesian(expand = FALSE)
+```
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/unnamed-chunk-5-1.png" width="360" /&gt;
+
+---
+#Axis Expansion
+
+
+```r
+ggplot(mpg, aes(fl, fill = drv)) + 
+  geom_bar() +
+  coord_cartesian(expand = FALSE,
+*                 ylim = c(0, 190))
+```
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/unnamed-chunk-6-1.png" width="360" /&gt;
+
+---
+#Axis Expansion
+
+
+```r
+ggplot(mpg, aes(fl, fill = drv)) + 
+  geom_bar() +
+*scale_y_continuous(expand = expand_scale(mult = c(0, 0.1)))
+```
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/unnamed-chunk-7-1.png" width="360" /&gt;
+
+---
+#Color, shape, linetype scales
+
+
+```r
+require(RColorBrewer)
+
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+  geom_point(aes(color = Species, shape = Species)) +
+* scale_colour_brewer(palette = "Set1") +
+* scale_shape_manual(values = c(15, 16, 17))
+```
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/unnamed-chunk-8-1.png" width="360" /&gt;
+
+[all scales](https://ggplot2.tidyverse.org/reference/index.html#section-scales)
+
+???
+
+Manual palettes
+google search to find values
+n must match!
+
+good color: brewer, viridis
+fun: wesanderson
+
+color: continuous vs. discrete
+
+continuous color: two color vs. diverging vs. n-color
+setting NA value
+setting midpoint (diverging)
+---
+#Changing legend text
+
+
+```r
+ggplot(PlantGrowth, aes(x = group, y = weight, fill = group)) + 
+  geom_boxplot()
+```
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/unnamed-chunk-9-1.png" width="360" /&gt;
+---
+#Changing legend text
+
+
+```r
+ggplot(PlantGrowth, aes(x = group, y = weight, fill = group)) + 
+  geom_boxplot() +
+* scale_fill_discrete(name = "Treatment",
+*                     labels = c("Control", "Treatment 1", "Treatment 2"))
+```
+
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/unnamed-chunk-10-1.png" width="360" /&gt;
+
+???
+
+Just like how scale is where you change axis labels, color etc. is a scale too - so you change legend titles in scale_...()
+---
+class: inverse
+#Exercise: work with `scale` and `coord`
+
+For each task, copy/paste code from a previous plot and give it a new name
+
+1. Breaks and limits: Make a plot with customized axis breaks, custom axis limits, and no axis expansion
+2. Transformations: Apply a log or square root transformation
+3. Aesthetic scales and legends: Change the color, shape, or linetype scale in a plot (use the plot you made in the `aes` exercise as a starting point), and change the legend text.
+4. Dates and datetimes: Graph date or datetime data, and set date_breaks to your desired interval (week, day, year, etc.) *If you don't have date/datetime data, the built in dataset `economics` is a good practice timeseries.*
+
+---
+###`data`
+###`aes`
+###`geom`
+###`stat`
+###`coord`
+###`scale` 
+###`facet` splits into multiple plots
+###`theme`
+
+---
+layout: true
+### `facet_wrap()`
+---
+
+.left-code[
+
+```r
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() +
+* facet_wrap(~class) 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetwrap_1a-out-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() +
+  facet_wrap(~class, 
+*            scales = "free") 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetwrap_2b-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() +
+* facet_wrap(~class, nrow = 2) 
+  #or ncol instead of nrow
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetwrap_3c-1.png" width="100%" /&gt;
+]
+
+---
+layout: true
+### `facet_grid()`
+---
+
+.left-code[
+
+```r
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() +
+* facet_grid(drv~cyl) 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetgrid_1-out-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() +
+  facet_grid(drv~cyl, 
+*            scales = "free") 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetgrid_2-out-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() +
+  facet_grid(drv~cyl, 
+             scales = "free", 
+*            space = "free") 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetgrid_3-out-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() +
+  facet_grid(drv~cyl, 
+*            scales = "free_x", 
+*            space = "free_x") 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetgrid_4-out-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() +
+* facet_grid(.~cyl, 
+             scales = "free_x", 
+             space = "free_x") 
+```
+]
+
+.right-plot[
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetgrid_5-out-1.png" width="100%" /&gt;
+]
+
+---
+layout: false
+class: inverse
+#Exercise: Facet a plot
+try with defaults, `scales = free`, and `space = free` to see how plots change
+
+---
+###`data`
+###`aes`
+###`geom`
+###`stat`
+###`coord`
+###`scale` 
+###`facet` 
+###`theme` alters appearance and formatting
+
+---
+
+&lt;img src="./graphics_slides_files/example_figs/CPUE_RBT_year_size_1999_2018.jpg" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="./graphics_slides_files/example_figs/pres_RBT_condition_1999_2018.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+
+???
+
+This is how, during your defense, you get your committee member who hates R figures to compliment you on the pretty figures he thinks you made in sigmaplot
+
+---
+&lt;img src="pres02_ggplot_fundamentals_files/figure-html/unnamed-chunk-13-1.png" width="100%" /&gt;
+[All built in themes](https://ggplot2.tidyverse.org/reference/index.html#section-themes) [Extensions for more themes](https://www.ggplot2-exts.org/gallery/)
+
+???
+quickly make pretty nice plots
+
+Can adjust base_size and base_family
+
+---
+#`theme()` adjust individual theme elements
+
+```r
+*+ theme(panel_background = element_rect(color = "red"), 
+*       axis.title.x = element_text(size = 16, color = "blue"), 
+        legend_position = c(0.9, 0.9))
+```
+
+--
+
+`element_rect()`  
+`element_line()`  
+`element_text()`  
+`element_blank()` 
+---
+#`theme()` adjust individual theme elements
+
+```r
++ theme(panel_background = element_rect(color = "red"),
+        axis.title.x = element_text(size = 16, color = "blue"),
+*       legend_position = c(0.9, 0.9)) 
+```
+
+
+
+`element_rect()`  
+`element_line()`  
+`element_text()`  
+`element_blank()`  
+
+???
+
+Live coding: add various ones to plot
+
+---
+#My favorite theme edits
+
+```r
+legend_position = c(0.9, 0.9) #position within plot
+legend_position = "bottom" #top, right, left, none
+legend_title = element_blank() #remove legend title
+panel_background = element_rect(fill = NA) #transparent plot background
+plot_background = element_rect(fill = NA) #tranparent background
+strip_background = element_blank() #remove strip background on facets
+panel_spacing = unit(1, "lines") #change spacing between facets
+```
+
+[all `theme()` edits](https://ggplot2.tidyverse.org/reference/theme.html)
+
+---
+class: inverse
+#Exercise: theme edits
+
+--
+#Contest!
+
+##Prettiest plot and Ugliest plot
+
+---
+
+#`+` combines layers
+
+#layers are plotted in order listed
+
+---
+#More than one way
+
+
+```r
+ggplot(mtcars, aes(x = hp, y = mpg, color = factor(cyl))) +
+  geom_point()
+
+ggplot(mtcars) +
+  aes(x = hp, y = mpg, color = factor(cyl)) +
+  geom_point()
+
+ggplot(mtcars) +
+  geom_point(aes(x = hp, y = mpg, color = factor(cyl)))
+
+mtcars %&gt;% 
+  ggplot(aes(x = hp, y = mpg, color = factor(cyl))) +
+  geom_point()
+```
+add graph in second column
+---
+#More than one way
+
+
+```r
+*ggplot(mtcars, aes(x = hp, y = mpg, color = factor(cyl))) + 
+* geom_point() 
+
+ggplot(mtcars) +
+  aes(x = hp, y = mpg, color = factor(cyl)) +
+  geom_point()
+
+ggplot(mtcars) +
+  geom_point(aes(x = hp, y = mpg, color = factor(cyl)))
+
+*mtcars %&gt;% 
+* ggplot(aes(x = hp, y = mpg, color = factor(cyl))) + 
+* geom_point() 
+```
+add graph in second column
+---
+#Saving
+
+#`ggsave()`
+
+
+```r
+ggsave(myplot, 
+       "./output/figures/test_plot.png", 
+       dpi = 300, width = 6, height = 4) 
+```
+
+`"eps", "ps", "tex", "pdf", "jpeg", "tiff", "png", "bmp", "svg", "wmf"`
+---
+
+#Common Errors
+
+- missing/extra `( ) , +`  
+
+--
+- `$` notation in plot code  
+
+--
+- scale/data mismatch  
+
+--
+- Using data from multiple dataframes  
+
+--
+- Multiple `geom_...()` instead of `aes(group = ...)`  
+
+--
+- stuff that should be inside `aes()` isn't, or vice versa  
+
+---
+class:inverse
+#Exercise: Publication or Presentation ready plot
+Use your data, and what we just learned, to make a plot and save it. 
+
+Lots of the work you did to practice individual plot changes can be combined to make the plot you want.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "idea",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  /* Replace <script> tags in slides area to make them executable
+   *
+   * Runs after post-processing of markdown source into slides and replaces only
+   * <script>s on the last slide of continued slides using the .has-continuation
+   * class added by xaringan. Finally, any <script>s in the slides area that
+   * aren't executed are commented out.
+   */
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container:not(.has-continuation) script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+  var scriptsNotExecuted = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container.has-continuation script'
+  );
+  if (!scriptsNotExecuted.length) return;
+  for (var i = 0; i < scriptsNotExecuted.length; i++) {
+    var comment = document.createComment(scriptsNotExecuted[i].outerHTML)
+    scriptsNotExecuted[i].parentElement.replaceChild(comment, scriptsNotExecuted[i])
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

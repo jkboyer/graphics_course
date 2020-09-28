@@ -1,0 +1,56 @@
+xaringan-themer	google_font	library	mono_accent
+load_packages_and_data	library
+first-plot1a	ggplot	msleep
+first-plot1a-out	ggplot	msleep
+first-plot1b	aes	bodywt	ggplot	msleep	sleep_total
+first-plot1b-out	aes	bodywt	ggplot	msleep	sleep_total
+first-plot1c	aes	bodywt	geom_point	ggplot	msleep	sleep_total
+first-plot1c-out	aes	bodywt	geom_point	ggplot	msleep	sleep_total
+first-plot1d	aes	bodywt	c	geom_point	ggplot	msleep	scale_x_log10	scale_y_continuous	sleep_total
+first-plot1d-out	aes	bodywt	c	geom_point	ggplot	msleep	scale_x_log10	scale_y_continuous	sleep_total
+first-plot1e	aes	bodywt	c	geom_point	ggplot	msleep	scale_x_log10	scale_y_continuous	sleep_total	stat_smooth
+first-plot1e-out	aes	bodywt	c	geom_point	ggplot	msleep	scale_x_log10	scale_y_continuous	sleep_total	stat_smooth
+first-plot1f	~	aes	bodywt	c	facet_wrap	geom_point	ggplot	msleep	scale_x_log10	scale_y_continuous	sleep_total	stat_smooth
+first-plot1f-out	~	aes	bodywt	c	facet_wrap	geom_point	ggplot	msleep	scale_x_log10	scale_y_continuous	sleep_total	stat_smooth
+first-plot1f2	!	$	~	aes	bodywt	c	facet_wrap	geom_point	ggplot	is.na	msleep	scale_x_log10	scale_y_continuous	sleep_total	stat_smooth
+first-plot1f2-out	!	$	~	aes	bodywt	c	facet_wrap	geom_point	ggplot	is.na	msleep	scale_x_log10	scale_y_continuous	sleep_total	stat_smooth
+first-plot1g	!	$	~	aes	bodywt	c	facet_wrap	geom_point	ggplot	is.na	msleep	scale_x_log10	scale_y_continuous	sleep_total	stat_smooth	theme_minimal
+first-plot1g-out	!	$	~	aes	bodywt	c	facet_wrap	geom_point	ggplot	is.na	msleep	scale_x_log10	scale_y_continuous	sleep_total	stat_smooth	theme_minimal
+common-plot-types	$	::	>=	aes	as.Date	c	data.frame	date	density	drv	economics	eruptions	expand_scale	faithfuld	geom_bar	geom_boxplot	geom_density	geom_histogram	geom_line	geom_point	geom_pointrange	geom_raster	ggplot	iris	lower	mpg	require	rnorm	scale_fill_viridis_c	scale_y_continuous	Sepal.Length	Sepal.Width	Species	theme	theme_void	unemploy	upper	waiting	x	xvar	yvar
+errorbar_geoms	::	aes	c	data.frame	expand_scale	geom_errorbar	geom_errorbarh	geom_linerange	ggplot	lower	scale_y_continuous	theme_void	upper	xvar	yvar
+position_adjustments	aes	geom_jitter	ggplot	iris	Sepal.Length	Species
+adjust-position	$	::	aes	c	drv	expand_scale	fl	geom_bar	ggplot	mpg	scale_y_continuous	theme	theme_void
+unnamed-chunk-1	aes	displ	geom_point	ggplot	hwy	mpg	stat_smooth
+common-aesthetics	::	aes	arrow	c	coord_cartesian	data.frame	factor	geom_point	geom_segment	geom_tile	linetype	rep	require	scale_alpha_manual	scale_color_manual	scale_fill_manual	scale_linetype_identity	scale_shape_manual	scale_size_identity	scale_size_manual	x	xend	y	yend
+unnamed-chunk-2	aes	cty	displ	geom_point	ggplot	mpg
+unnamed-chunk-3	aes	cty	displ	drv	geom_point	ggplot	mpg
+unnamed-chunk-4	aes	drv	fl	geom_bar	ggplot	mpg
+unnamed-chunk-5	aes	coord_cartesian	drv	fl	geom_bar	ggplot	mpg
+unnamed-chunk-6	aes	c	coord_cartesian	drv	fl	geom_bar	ggplot	mpg
+unnamed-chunk-7	aes	c	drv	expand_scale	fl	geom_bar	ggplot	mpg	scale_y_continuous
+unnamed-chunk-8	aes	c	geom_point	ggplot	iris	require	scale_colour_brewer	scale_shape_manual	Sepal.Length	Sepal.Width	Species
+unnamed-chunk-9	aes	geom_boxplot	ggplot	group	PlantGrowth	weight
+unnamed-chunk-10	aes	c	geom_boxplot	ggplot	group	PlantGrowth	scale_fill_discrete	weight
+facetwrap_1a	~	aes	displ	facet_wrap	geom_point	ggplot	hwy	mpg
+facetwrap_1a-out	~	aes	displ	facet_wrap	geom_point	ggplot	hwy	mpg
+facetwrap_2b	~	aes	displ	facet_wrap	geom_point	ggplot	hwy	mpg
+facetwrap_3c	~	aes	displ	facet_wrap	geom_point	ggplot	hwy	mpg
+facetgrid_1	~	aes	displ	facet_grid	geom_point	ggplot	hwy	mpg
+facetgrid_1-out	~	aes	displ	facet_grid	geom_point	ggplot	hwy	mpg
+facetgrid_2	~	aes	displ	facet_grid	geom_point	ggplot	hwy	mpg
+facetgrid_2-out	~	aes	displ	facet_grid	geom_point	ggplot	hwy	mpg
+facetgrid_3	~	aes	displ	facet_grid	geom_point	ggplot	hwy	mpg
+facetgrid_3-out	~	aes	displ	facet_grid	geom_point	ggplot	hwy	mpg
+facetgrid_4	~	aes	displ	facet_grid	geom_point	ggplot	hwy	mpg
+facetgrid_4-out	~	aes	displ	facet_grid	geom_point	ggplot	hwy	mpg
+facetgrid_5	~	aes	displ	facet_grid	geom_point	ggplot	hwy	mpg
+facetgrid_5-out	~	aes	displ	facet_grid	geom_point	ggplot	hwy	mpg
+unnamed-chunk-11	::
+unnamed-chunk-12	::
+unnamed-chunk-13	$	$<-	::	aes	element_text	factor	gear	geom_point	ggplot	ggtitle	mpg	theme	theme_bw	theme_classic	theme_light	theme_minimal	wt
+unnamed-chunk-14	c	element_rect	element_text	theme
+unnamed-chunk-15	c	element_rect	element_text	theme
+unnamed-chunk-16	c	element_blank	element_rect	unit
+unnamed-chunk-17	%>%	aes	cyl	factor	geom_point	ggplot	hp	mpg	mtcars
+unnamed-chunk-18	%>%	aes	cyl	factor	geom_point	ggplot	hp	mpg	mtcars
+unnamed-chunk-19	ggsave	myplot
