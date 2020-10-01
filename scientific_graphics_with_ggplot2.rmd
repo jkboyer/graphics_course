@@ -1,0 +1,276 @@
+---
+title: "Scientific graphics with `ggplot2` in R"
+author: "Jan K Boyer"
+date: "10/1/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+##Why Code your plots?
+- Integrate analysis and figure creation
+- *Reproducible*
+- *Free and open source*
+- *Excellent documentation* The official ggplot2 documentation is excellent, and numerous online help forums and blog posts provide even more resources for troubleshooting and learning.
+- *Protects us from ourselves* `ggplot2` makes it difficult or impossible to add problematic features (3d, dual axes), forcing us to make clean, scientific graphs.
+
+
+# R Graphics Packages
+
+There are several ways to make graphs in R. R comes with graphics capability (referred to as base graphics), and packages such as `lattice` and `ggplot2` can also be used to make graphics. 
+
+**figure out how to do columns**
+## base
+
+```{r base_example_plot}
+plot(Sepal.Length~Petal.Width, data = iris)
+```
+
+## `lattice`
+
+```{r lattice_example_plot}
+require(lattice)
+xyplot(Sepal.Length~Petal.Width|Species, data = iris)
+```
+
+## `ggplot2`
+```{r echo=FALSE}
+theme_set(theme_grey(base_size = 20))
+```
+
+```{r ggplot_example_plot}
+require(ggplot2)
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Width)) +
+  geom_point()
+```
+
+This course focuses on `ggplot2`, which is the package I use most often. However, you can also make excellent publication quality graphics with base graphics or `lattice`.
+
+# Formatting data
+
+Before making a `ggplot2', make sure your data is in the right format:
+
+1. All data in one dataframe
+2. Data in long format  
+    - Each observation is a row
+    - Each variable is a column
+3. Column classes correct
+4. Factors ordered correctly
+
+This section provides code examples for the data formatting edits that are most commonly needed to correctly format data for plotting. All code blocks show both base R and tidyverse code, so you can use whichever you are most comfortable with. 
+
+## 1. All data in one dataframe
+
+All of your data needs to be in one dataframe before making a ggplot. If you have different dataframes for each site, species, or replicate, or have site information in one dataframe and species data in another, you need to combine your dataframes into one before plotting. 
+
+### Add observations (rows)
+If you have multiple dataframes with identical column names, you can simple paste bind the rows together:
+
+
+```{r eval=FALSE}
+#base
+#columns must match
+df.all <- rbind(df1, df2)
+
+#dplyr (tidyverse)
+#can handle missing columns
+require(dplyr)
+df.all <- bind_rows(df1, df2)
+```
+
+
+### Add variables (columns)
+
+
+####add exampled df
+
+```{r eval=FALSE}
+#base
+df.new <- merge(df1, df2, by = "siteID") #inner
+df.new <- merge(df1, df2, by = "siteID", all.x = TRUE) #left outer
+df.new <- merge(df1, df2, by = "siteID", all.y = TRUE) #right outer
+df.new <- merge(df1, df2, by = "siteID", all = TRUE) #outer
+
+#dplyr (tidyverse)
+#will automatically join on common column names
+#use by = "siteID" to specify join variable
+df.new <- df1 %>% inner_join(df2) #inner
+df.new <- df1 %>% left_join(df2) #left outer
+df.new <- df1 %>% right_join(df2) #right outer
+df.new <- df1 %>% full_join(df2) #outer
+```
+
+### Convert wide data to long data
+
+We often record data in wide format
+
+.pull-left[
+# Wide
+```{r echo=FALSE}
+d.wide <- tibble(
+  date = rep(as.Date('2019-06-23') + c(0,0,0,2,2,2)),
+  site = rep(c("a", "b", "c"), 2),
+  FMS = rpois(6, 23),
+  BHS = rpois(6, 9), 
+  HBC = rpois(6, 2) 
+)
+
+d.long <- gather(d.wide, #data
+                 key = species,  #new key column (i.e., what are groups)
+                 value = catch,  #new value column (i.e., what did you measure)
+                 -date, -site) #columns that should not be gathered
+
+
+knitr::kable(d.wide, format = 'html')
+```
+]
+
+.pull-right[
+#Long
+```{r echo=FALSE}
+knitr::kable(d.long, format = 'html')
+```
+]
+
+
+##Convert wide to long
+
+```{r wide_long_conversion, eval=FALSE}
+#tidyverse
+require(tidyr)
+
+gather(data, key = "key", value = "value")
+```
+  
+
+
+*Other options:  
+`datatable::melt()`   
+`pivot_longer()` in development version of `tidyverse`*
+
+
+
+d.wide <- tibble(
+  date = rep(as.Date('2019-06-23') + c(0,0,0,1,1,1,2,2,2)),
+  site = rep(c("a", "b", "c"), 3),
+  flannelmouth = rpois(9, 23),
+  bluehead = rpois(9, 9), 
+  carp = rpois(9, 2) 
+)
+
+d.long <- gather(d.wide, #data
+                 key = species,  #new key column (i.e., what are groups)
+                 value = n_caught,  #new value column (i.e., what did you measure)
+                 -date, -site) #columns that should not be gathered
+
+
+
+### Check column classes
+```{r eval=FALSE}
+str(iris) #base r
+glimpse(iris) #tidyverse
+```
+
+### Define column classes
+```{r eval=FALSE}
+df$weight <- as.numeric(df$weight) #base
+
+df <- df %>% mutate(weight = as.numeric(weight)) #dplyr (tidyverse)
+  
+as.numeric()
+as.integer()
+as.character()
+as.factor()
+as.Date() #format should be 2019-04-30
+as.POSIXct() #format: 2019-04-30 14:22:00
+```
+
+
+# Order Factors
+
+In order to arrange character or factor data in a certain order, you must make it a factor and define levels. Otherwise, `ggplot2` will simply arrange it alphabetically.
+
+```{r }
+#base
+iris$Species <- factor(iris$Species,
+                       levels = c("virginica", "versicolor", "setosa")) #<<
+
+#dplyr (tidyverse)
+iris <- iris %>% 
+  mutate(Species = factor(Species, 
+                          levels = c("virginica", "versicolor", "setosa"))) #<<
+
+levels(iris$Species) #check they are correct now
+```
+
+
+# Making ggplots
+
+ggplots are made out of the following elements:
+
+### `data`
+### `aes`
+### `geom`
+### `stat`
+### `coord`
+### `scale`
+### `facet` 
+### `theme` 
+
+Some of the above elements are optional, but there are three elements that you *always* need to define for a ggplot:
+
+### `data`
+### `aes`thetic mappings map variables to x, y, color, shape, etc.
+### `geom`etric objects display data on plot (point, line, boxplot, etc.)
+
+This animation shows how we add these elements to our code to make a simple ggplot:
+ADD GIF
+
+### A shortcut to prettier plots:
+
+The default theme for `ggplot2`, `theme_gray()` isn't great. 
+
+```{r echo = FALSE, fig.width=8, fig.height=6}
+mtcars$gear <- factor(mtcars$gear)
+ggplot(mtcars, aes(x = wt, y = mpg, colour = gear)) +
+  geom_point()
+```
+
+ggplot2 comes with several built in themes that are much cleaner than `theme_gray()`
+
+```{r echo = FALSE, out.width = "100%", fig.asp = 0.5}
+require(cowplot)
+mtcars$gear <- factor(mtcars$gear)
+p <- ggplot(mtcars, aes(x = wt, y = mpg, colour = gear)) +
+  geom_point()
+
+classic <-  p +  theme_classic(base_size = 10) +
+  theme(plot.title = element_text(family = "mono")) + 
+  ggtitle("theme_classic()")
+minimal <- p +  theme_minimal(base_size = 10)+
+  theme(plot.title = element_text(family = "mono")) +
+  ggtitle("theme_minimal()")
+          
+bw <- p +  theme_bw(base_size = 10)+
+  theme(plot.title = element_text(family = "mono")) + 
+  ggtitle("theme_bw()")
+light <- p + theme_light(base_size = 10) +
+  theme(plot.title = element_text(family = "mono")) +
+  ggtitle("theme_light()")
+
+plot_grid(classic,  minimal, bw, light, nrow = 2)
+
+```
+[See all built in themes](https://ggplot2.tidyverse.org/reference/index.html#section-themes)
+
+The `theme_set()` function sets a default theme. Add `theme_set()' with your preferred theme and font size to the top of your R script, and then all of the graphs you create in that script will use that theme.
+
+```{r out.width = "70%", fig.height=3}
+theme_set(theme_minimal(base_size = 20)) #<<
+
+ggplot(mtcars, aes(x = wt, y = mpg, color = gear)) +
+  geom_point()
+```
