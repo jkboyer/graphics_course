@@ -5,3 +5,10 @@ tidyr
 dplyr
 lattice
 cowplot
+palmerpenguins
+tidyverse
+tibble
+readr
+purrr
+stringr
+forcats

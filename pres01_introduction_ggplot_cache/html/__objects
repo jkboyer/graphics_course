@@ -1,5 +1,5 @@
 xaringan-themer	
-load_packages_and_data	.Random.seed
+load_packages_and_data	
 base_example_plot	
 lattice_example_plot	
 unnamed-chunk-1	
@@ -17,7 +17,7 @@ unnamed-chunk-11
 wide_long_conversion	
 unnamed-chunk-12	
 unnamed-chunk-13	
-unnamed-chunk-14	iris
+unnamed-chunk-14	penguins
 unnamed-chunk-15	
 simpleplot_1a	
 simpleplot_1a-out	
@@ -31,3 +31,6 @@ simpleplot_1e
 unnamed-chunk-16	mtcars
 unnamed-chunk-17	bw	classic	light	minimal	mtcars	p
 unnamed-chunk-18	
+simpleplot_test	
+simpleplot_test-out	
+unnamed-chunk-19	

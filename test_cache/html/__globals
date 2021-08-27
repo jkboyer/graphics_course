@@ -1,0 +1,4 @@
+xaringan-themer	library	style_mono_accent
+load_packages_and_data	library	theme_grey	theme_set
+simpleplot_test	aes	body_mass_g	flipper_length_mm	geom_point	ggplot	penguins	species
+simpleplot_test-out	aes	body_mass_g	flipper_length_mm	geom_point	ggplot	penguins	species

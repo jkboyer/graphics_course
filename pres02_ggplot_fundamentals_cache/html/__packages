@@ -4,3 +4,10 @@ ggplot2
 tidyr
 dplyr
 RColorBrewer
+tidyverse
+tibble
+readr
+purrr
+stringr
+forcats
+palmerpenguins

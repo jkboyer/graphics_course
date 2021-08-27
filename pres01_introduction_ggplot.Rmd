@@ -45,26 +45,23 @@ as_table <- function(...) knitr::kable(..., format='html', digits = 3)
 
 ```{r xaringan-themer, include = FALSE}
 library(xaringanthemer)
-mono_accent(
-  base_color = "#576bb5",
-  inverse_background_color = "#48566e",
-  code_inline_color = "#b97d58",
-  header_font_google = google_font("Roboto Slab", "500", "500i"),
-  text_font_google   = google_font("Roboto", "300", "300i"),
-  code_font_size = "0.7em",
-  padding = "1em 2em 1em 2em", 
-  text_font_size = "30px",
-)
+style_mono_accent(base_color = "#43418A")
+ # base_color = "#576bb5"#,
+ # inverse_background_color = "#48566e",
+#  code_inline_color = "#b97d58",
+ # code_font_size = "0.7em",
+ # padding = "1em 2em 1em 2em", 
+ # text_font_size = "30px",
+
 ```
 
 ```{r load_packages_and_data, include=FALSE}
-library(ggplot2)
-library(tidyr)
-library(dplyr)
+library(tidyverse)
 library(lattice)
+library(palmerpenguins)
 
-
-theme_set(theme_grey())
+#override the pretty xaringanthemer adjustments to ggplot default theme
+theme_xaringan_restore_defaults()
 ```
 #Why Code your plots?
 - Integrate analysis and figure creation
@@ -93,14 +90,14 @@ theme_set(theme_grey())
 # base
 
 ```{r base_example_plot}
-plot(Sepal.Length~Petal.Width, data = iris)
+plot(body_mass_g ~ flipper_length_mm, data = penguins)
 ```
 ---
 ## `lattice`
 
 ```{r lattice_example_plot}
-require(lattice)
-xyplot(Sepal.Length~Petal.Width|Species, data = iris)
+library(lattice)
+xyplot(body_mass_g ~ flipper_length_mm|species, data = penguins)
 ```
 
 ---
@@ -110,8 +107,8 @@ theme_set(theme_grey(base_size = 20))
 ```
 
 ```{r ggplot_example_plot}
-require(ggplot2)
-ggplot(iris, aes(x = Sepal.Length, y = Petal.Width)) +
+library(ggplot2)
+ggplot(penguins, aes(x = body_mass_g, y = flipper_length_mm)) +
   geom_point()
 ```
 
@@ -183,7 +180,7 @@ df.all <- rbind(df1, df2)
 
 #dplyr (tidyverse)
 #can handle missing columns
-require(dplyr)
+library(dplyr)
 df.all <- bind_rows(df1, df2)
 ```
 
@@ -241,9 +238,11 @@ knitr::kable(d.long, format = 'html')
 
 ```{r wide_long_conversion, eval=FALSE}
 #tidyverse
-require(tidyr)
+library(tidyr)
 
-gather(data, key = "key", value = "value")
+data %>% 
+  pivot_longer(!site.id, #don't pivot
+               names_to = "count", values_to = "species")
 ```
   
   
@@ -252,7 +251,7 @@ gather(data, key = "key", value = "value")
 
 *Other options:  
 `datatable::melt()`   
-`pivot_longer()` in development version of `tidyverse`*
+
 
 ???
 
@@ -274,8 +273,8 @@ d.long <- gather(d.wide, #data
 ---
 ###Check column classes
 ```{r eval=FALSE}
-str(iris) #base r
-glimpse(iris) #tidyverse
+str(penguins) #base r
+glimpse(penguins) #tidyverse
 ```
 
 ###Define column classes
@@ -297,15 +296,15 @@ as.POSIXct() #format: 2019-04-30 14:22:00
 
 ```{r }
 #base
-iris$Species <- factor(iris$Species,
-                       levels = c("virginica", "versicolor", "setosa")) #<<
+penguins$Species <- factor(penguins$species,
+                       levels = c("Gentoo", "Chinstrap", "Adelie")) #<<
 
 #dplyr (tidyverse)
-iris <- iris %>% 
-  mutate(Species = factor(Species, 
-                          levels = c("virginica", "versicolor", "setosa"))) #<<
+penguins <- penguins %>% 
+  mutate(species = factor(species, 
+                          levels = c("Gentoo", "Chinstrap", "Adelie"))) #<<
 
-levels(iris$Species) #check they are correct now
+levels(penguins$species) #check they are correct now
 ```
 
 ---
@@ -328,6 +327,7 @@ class:inverse
 We'll continue adding to this r script throughout the class.
 
 Remember to annotate!
+
 
 ---
 class:inverse
@@ -355,80 +355,80 @@ layout: true
 ```{r echo=FALSE}
 theme_set(theme_grey(base_size = 20))
 ```
-.left-code[
+.pull-left[
 ```{r simpleplot_1a, eval=FALSE}
-ggplot(iris) #<<
+ggplot(penguins) #<<
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r simpleplot_1a-out, ref.label='simpleplot_1a', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r simpleplot_1b, eval=FALSE}
-ggplot(iris) +
-  aes(x = Sepal.Width, #<<
-      y = Sepal.Length) #<<
+ggplot(penguins) +
+  aes(x = flipper_length_mm, #<<
+      y = body_mass_g) #<<
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r simpleplot_1b-out, ref.label='simpleplot_1b', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r simpleplot_1c, eval=FALSE}
-ggplot(iris) +
-  aes(x = Sepal.Width, 
-      y = Sepal.Length) + 
+ggplot(penguins) +
+  aes(x = flipper_length_mm, 
+      y = body_mass_g) +
   geom_point() #<<
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r simpleplot_1c-out, ref.label='simpleplot_1c', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r simpleplot_1d, eval=FALSE}
-ggplot(iris) +
-  aes(x = Sepal.Width, 
-      y = Sepal.Length,
-      color = Species) + #<<
+ggplot(penguins) +
+  aes(x = flipper_length_mm, 
+      y = body_mass_g, 
+      color = species) + #<<
   geom_point()
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r simpleplot_1d-out, ref.label='simpleplot_1d', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r simpleplot_1e, eval=FALSE} 
-p.miminal <- ggplot(iris) + #<<
-  aes(x = Sepal.Width, 
-      y = Sepal.Length,
-      color = Species) + 
+p.miminal <- ggplot(penguins) + #<<
+  aes(x = flipper_length_mm, 
+      y = body_mass_g,
+      color = species) + 
   geom_point()
 
 p.minimal #<<
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r simpleplot_1d-out, ref.label='simpleplot_1d', echo=FALSE, out.width="100%"}
 ```
 ]
@@ -455,7 +455,7 @@ ggplot(mtcars, aes(x = wt, y = mpg, colour = gear)) +
 
 ---
 ```{r echo = FALSE, out.width = "100%", fig.asp = 0.5}
-require(cowplot)
+library(cowplot)
 mtcars$gear <- factor(mtcars$gear)
 p <- ggplot(mtcars, aes(x = wt, y = mpg, colour = gear)) +
   geom_point()

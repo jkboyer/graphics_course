@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Jan Boyer | jboyer@azgfd.gov" />
     <meta name="date" content="2019-07-25" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
   </head>
@@ -14,7 +15,7 @@ class: left, bottom, title-slide
 
 # <code>ggplot2</code>: layer by layer
 ## Scientific Graphics with <code>ggplot2</code> in R
-### Jan Boyer | <a href="mailto:jboyer@azgfd.gov">jboyer@azgfd.gov</a>
+### Jan Boyer | <a href="mailto:jboyer@azgfd.gov" class="email">jboyer@azgfd.gov</a>
 ### 2019-07-25
 
 ---
@@ -40,75 +41,75 @@ layout: true
 ### A More complex ggplot
 ---
 
-.left-code[
+.pull-left[
 
 ```r
-ggplot(msleep)
+*msleep %&gt;% ggplot() 
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1a-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
-ggplot(msleep,
+msleep %&gt;% ggplot() +
 * aes(x = bodywt, 
-*     y = sleep_total)) 
+*     y = sleep_total) 
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1b-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
-ggplot(msleep,
-  aes(x = bodywt,
-      y = sleep_total)) +
+msleep %&gt;% ggplot() +
+  aes(x = bodywt, 
+      y = sleep_total) +
 * geom_point() 
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1c-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
-ggplot(msleep,
-  aes(x = bodywt,
-      y = sleep_total)) +
+msleep %&gt;% ggplot() +
+  aes(x = bodywt, 
+      y = sleep_total) +
   geom_point() +
 * scale_x_log10("Weight (kg)") + 
-* scale_y_continuous("Hrs Sleep", 
+* scale_y_continuous("Hours Sleep", 
 *   limits = c(0, 20))   
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1d-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
-ggplot(msleep,
-  aes(x = bodywt,
-      y = sleep_total)) +
+msleep %&gt;% ggplot() +
+  aes(x = bodywt, 
+      y = sleep_total) +
   geom_point() +
   scale_x_log10("Weight (kg)") +
   scale_y_continuous(
@@ -118,62 +119,66 @@ ggplot(msleep,
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1e-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
-ggplot(msleep,
-  aes(x = bodywt,
-      y = sleep_total)) +
+msleep %&gt;% ggplot() +
+  aes(x = bodywt, 
+      y = sleep_total) +
   geom_point() +
   scale_x_log10("Weight (kg)") +
   scale_y_continuous(
     limits = c(0, 20),
     "Hours Sleep") +
   stat_smooth(method = "lm") + 
-* facet_wrap(~vore) 
+* facet_wrap(vars(vore)) 
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1f-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
 
-.left-code[
+.pull-left[
 
 ```r
-*ggplot(msleep[!is.na(msleep$vore),],  
-  aes(x = bodywt,
-      y = sleep_total)) +
+msleep %&gt;% 
+* filter(!is.na(vore)) %&gt;% 
+  ggplot() +
+  aes(x = bodywt, 
+      y = sleep_total) +
   geom_point() +
   scale_x_log10("Weight (kg)") +
   scale_y_continuous(
     limits = c(0, 20),
     "Hours Sleep") +
   stat_smooth(method = "lm") + 
-  facet_wrap(~vore) 
+  facet_wrap(vars(vore)) 
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1f2-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
-ggplot(msleep[!is.na(msleep$vore),]) + 
-  aes(x = bodywt,
+msleep %&gt;% 
+  filter(!is.na(vore)) %&gt;%
+  ggplot() +
+  aes(x = bodywt, 
       y = sleep_total) +
   geom_point() +
   scale_x_log10("Weight (kg)") +
@@ -186,7 +191,7 @@ ggplot(msleep[!is.na(msleep$vore),]) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/first-plot1g-out-1.png" width="100%" /&gt;
 ]
 
@@ -266,7 +271,7 @@ order (reverse order, show how error bars hidden)
 #Adjust position
 
 ```r
-ggplot(iris, aes(Species, Sepal.Length)) +
+ggplot(penguins, aes(species, flipper_length_mm)) +
   geom_jitter() 
 ```
 
@@ -333,7 +338,8 @@ Use one or more of the geoms and stats we learned about to start a plot you want
 It's ok to start several plots
 
 Make all plots objects in your r environment
-`my.plot &lt;- ggplot(data, aes(...`  
+
+`my.plot &lt;- data %&gt;% ggplot(aes(...`  
 `my.plot`
 
 Don't worry if they are ugly or still missing features, we will continue working on these figures as we learn more 
@@ -434,7 +440,7 @@ graph with customized scales (log and custom color scale, legend)
 ---
 #coordinate systems
 
-`coord_cartesian()` 
+`coord_cartesian()` default
 
 `coord_fixed()`  
 `coord_polar()`  
@@ -520,8 +526,8 @@ ggplot(mpg, aes(fl, fill = drv)) +
 ```r
 require(RColorBrewer)
 
-ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
-  geom_point(aes(color = Species, shape = Species)) +
+ggplot(penguins, aes(x = body_mass_g, y = flipper_length_mm)) +
+  geom_point(aes(color = species, shape = species)) +
 * scale_colour_brewer(palette = "Set1") +
 * scale_shape_manual(values = c(15, 16, 17))
 ```
@@ -596,7 +602,7 @@ layout: true
 ### `facet_wrap()`
 ---
 
-.left-code[
+.pull-left[
 
 ```r
 ggplot(mpg, aes(displ, hwy)) + 
@@ -605,13 +611,13 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetwrap_1a-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
 ggplot(mpg, aes(displ, hwy)) + 
@@ -621,13 +627,13 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetwrap_2b-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
 ggplot(mpg, aes(displ, hwy)) + 
@@ -637,7 +643,7 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetwrap_3c-1.png" width="100%" /&gt;
 ]
 
@@ -646,7 +652,7 @@ layout: true
 ### `facet_grid()`
 ---
 
-.left-code[
+.pull-left[
 
 ```r
 ggplot(mpg, aes(displ, hwy)) + 
@@ -655,13 +661,13 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetgrid_1-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
 ggplot(mpg, aes(displ, hwy)) + 
@@ -671,13 +677,13 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetgrid_2-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
 ggplot(mpg, aes(displ, hwy)) + 
@@ -688,13 +694,13 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetgrid_3-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
 ggplot(mpg, aes(displ, hwy)) + 
@@ -705,13 +711,13 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetgrid_4-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
 ggplot(mpg, aes(displ, hwy)) + 
@@ -722,7 +728,7 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/facetgrid_5-out-1.png" width="100%" /&gt;
 ]
 
@@ -756,7 +762,7 @@ This is how, during your defense, you get your committee member who hates R figu
 
 ---
 &lt;img src="pres02_ggplot_fundamentals_files/figure-html/unnamed-chunk-13-1.png" width="100%" /&gt;
-[All built in themes](https://ggplot2.tidyverse.org/reference/index.html#section-themes) [Extensions for more themes](https://www.ggplot2-exts.org/gallery/)
+[All built in themes;](https://ggplot2.tidyverse.org/reference/index.html#section-themes) [Extensions for more themes](https://www.ggplot2-exts.org/gallery/)
 
 ???
 quickly make pretty nice plots
@@ -769,7 +775,7 @@ Can adjust base_size and base_family
 ```r
 *+ theme(panel_background = element_rect(color = "red"), 
 *       axis.title.x = element_text(size = 16, color = "blue"), 
-        legend_position = c(0.9, 0.9))
+        legend_position = c(0.9, 0.9)) 
 ```
 
 --
@@ -908,6 +914,9 @@ class:inverse
 Use your data, and what we just learned, to make a plot and save it. 
 
 Lots of the work you did to practice individual plot changes can be combined to make the plot you want.
+
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -959,30 +968,20 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
 })();
 (function() {
   "use strict"
-  /* Replace <script> tags in slides area to make them executable
-   *
-   * Runs after post-processing of markdown source into slides and replaces only
-   * <script>s on the last slide of continued slides using the .has-continuation
-   * class added by xaringan. Finally, any <script>s in the slides area that
-   * aren't executed are commented out.
-   */
+  // Replace <script> tags in slides area to make them executable
   var scripts = document.querySelectorAll(
-    '.remark-slides-area .remark-slide-container:not(.has-continuation) script'
+    '.remark-slides-area .remark-slide-container script'
   );
   if (!scripts.length) return;
   for (var i = 0; i < scripts.length; i++) {
     var s = document.createElement('script');
     var code = document.createTextNode(scripts[i].textContent);
     s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
     scripts[i].parentElement.replaceChild(s, scripts[i]);
-  }
-  var scriptsNotExecuted = document.querySelectorAll(
-    '.remark-slides-area .remark-slide-container.has-continuation script'
-  );
-  if (!scriptsNotExecuted.length) return;
-  for (var i = 0; i < scriptsNotExecuted.length; i++) {
-    var comment = document.createComment(scriptsNotExecuted[i].outerHTML)
-    scriptsNotExecuted[i].parentElement.replaceChild(comment, scriptsNotExecuted[i])
   }
 })();
 (function() {

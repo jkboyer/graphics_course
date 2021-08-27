@@ -1,0 +1,62 @@
+---
+title: "Resources"
+author: "Jan Boyer"
+date: "8/11/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+There are so many R and ggplot2 references and tutorials available online that it can be overwhelming to find ones you like. Here is a list of some of my favorite ggplot2 and graph design resources.
+
+### Overview and Reference
+
+[Official ggplot2 documentation](https://ggplot2.tidyverse.org/reference/index.html)
+
+[A ggplot2 tutorial for beautiful plotting in R](https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/) blog post by Cedric Scherer with excellent examples of how to make many types of plots and customize formatting
+
+[R Graphics Cookbook](https://r-graphics.org/) by Winston Chang. Book with graph examples in ggplot2 and base graphics
+
+The [Data Visualization](https://r4ds.had.co.nz/data-visualisation.html) and [Graphics for Communication](https://r4ds.had.co.nz/graphics-for-communication.html) chapters In R for Data Science by Hadley Wickham cover ggplot2 basics. The book [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/index.html) dives more into the details of how ggplot2 works (probably more details than you need if you just want to make some nice graphs, but may be of interest to some people).
+
+[Data Analysis and Visualization in R for Ecologists](https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html) from Data Carpentry
+
+[ggplot2 cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization-2.1.pdf) printable reference sheet for ggplot2
+
+### Tutorials on specific topics
+
+
+
+### Additional packages
+
+`scales` Advanced options for scale labelling. Useful for logarithmic axis breaks, labels in scientific format, and mathematical values. 
+
+[`direct labels`](https://github.com/tdhock/directlabels) or [`ggrepel`](https://github.com/slowkow/ggrepel) Make your plots easier to understand by removing legends and using direct labels. 
+
+[`cowplot`](https://wilkelab.org/cowplot/) or [`patchwork`](https://patchwork.data-imaginist.com/) Multipanel and inset plot layouts, plot annotation and captions
+
+[`gganimate`](https://gganimate.com/) Animate your graphs. Great for showing change over time.
+
+Many more [ggplot2 extension](https://exts.ggplot2.tidyverse.org/gallery/) packages that will let you add statistical results to your graph, make specialized graph types, use custom themes, and more. 
+
+### Graph design (not necessarily R specific)
+
+[Fundamentals of Data Visualization by Claus O. Wilke](https://clauswilke.com/dataviz/) Excellent book on data visualization concepts.
+
+[Subtleties of Color](https://earthobservatory.nasa.gov/blogs/elegantfigures/2013/08/05/subtleties-of-color-part-1-of-6/) Blog series discussing how to use color to make your scientific graphics more understandable.
+
+You can view all of the color palettes available in R [here](https://github.com/EmilHvitfeldt/r-color-palettes). The `viridis` and `RColorBrewer` packages are good options. [`colorblindr`](https://github.com/clauswilke/colorblindr) lets you check if your plot is colorblind safe.
+
+Nice clean ggplot themes: [`hrbrthemes`](https://github.com/hrbrmstr/hrbrthemes) 
+
+### Maybe not useful, but fun
+
+Check out the [#Rtistry](https://twitter.com/hashtag/rtistry?src=hashtag_click) hashtag for generative and computational art created with ggplot2 or other R packages. Some of my favorites are by [Thomas Lin Pedersen](https://www.data-imaginist.com/art), [Ijeamaka Anyene](https://ijeamaka-anyene.netlify.app/posts/2021-01-04-radial-patterns-in-ggplot2/). 
+
+Color palettes inspired by [Wes Anderson movies](https://github.com/karthik/wesanderson), [Harry Potter houses](https://github.com/aljrico/harrypotter), [LaCroix Seltzer](https://github.com/johannesbjork/LaCroixColoR), [California ecosystems](https://github.com/an-bui/calecopal), [New Zealand birds](https://github.com/G-Thomson/Manu), and [more](https://github.com/EmilHvitfeldt/r-color-palettes). Many of these pallettes are actually quite good, but check if they are colorblind safe before using in final plots!
+
+Replace points with [cat](https://github.com/R-CoderDotCom/ggcats) or [dog photos.](https://github.com/R-CoderDotCom/ggdogs) Please don't actually use these packages in final graphics, but cat plots make programming more fun for you by all means use for learning and exploratory graphs!
+
+

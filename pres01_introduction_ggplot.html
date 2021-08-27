@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Jan Boyer | jboyer@azgfd.gov" />
     <meta name="date" content="2019-07-25" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
   </head>
@@ -14,7 +15,7 @@ class: left, bottom, title-slide
 
 # Introduction to <code>ggplot2</code>
 ## Scientific Graphics with <code>ggplot2</code> in R
-### Jan Boyer | <a href="mailto:jboyer@azgfd.gov">jboyer@azgfd.gov</a>
+### Jan Boyer | <a href="mailto:jboyer@azgfd.gov" class="email">jboyer@azgfd.gov</a>
 ### 2019-07-25
 
 ---
@@ -54,7 +55,7 @@ class: left, bottom, title-slide
 
 
 ```r
-plot(Sepal.Length~Petal.Width, data = iris)
+plot(body_mass_g ~ flipper_length_mm, data = penguins)
 ```
 
 &lt;img src="pres01_introduction_ggplot_files/figure-html/base_example_plot-1.png" width="360" /&gt;
@@ -63,8 +64,8 @@ plot(Sepal.Length~Petal.Width, data = iris)
 
 
 ```r
-require(lattice)
-xyplot(Sepal.Length~Petal.Width|Species, data = iris)
+library(lattice)
+xyplot(body_mass_g ~ flipper_length_mm|species, data = penguins)
 ```
 
 &lt;img src="pres01_introduction_ggplot_files/figure-html/lattice_example_plot-1.png" width="360" /&gt;
@@ -75,8 +76,8 @@ xyplot(Sepal.Length~Petal.Width|Species, data = iris)
 
 
 ```r
-require(ggplot2)
-ggplot(iris, aes(x = Sepal.Length, y = Petal.Width)) +
+library(ggplot2)
+ggplot(penguins, aes(x = body_mass_g, y = flipper_length_mm)) +
   geom_point()
 ```
 
@@ -139,7 +140,7 @@ df.all &lt;- rbind(df1, df2)
 
 #dplyr (tidyverse)
 #can handle missing columns
-require(dplyr)
+library(dplyr)
 df.all &lt;- bind_rows(df1, df2)
 ```
 
@@ -354,9 +355,11 @@ df.new &lt;- df1 %&gt;% full_join(df2) #outer
 
 ```r
 #tidyverse
-require(tidyr)
+library(tidyr)
 
-gather(data, key = "key", value = "value")
+data %&gt;% 
+  pivot_longer(!site.id, #don't pivot
+               names_to = "count", values_to = "species")
 ```
   
   
@@ -365,7 +368,7 @@ gather(data, key = "key", value = "value")
 
 *Other options:  
 `datatable::melt()`   
-`pivot_longer()` in development version of `tidyverse`*
+
 
 ???
 
@@ -388,8 +391,8 @@ d.long &lt;- gather(d.wide, #data
 ###Check column classes
 
 ```r
-str(iris) #base r
-glimpse(iris) #tidyverse
+str(penguins) #base r
+glimpse(penguins) #tidyverse
 ```
 
 ###Define column classes
@@ -413,19 +416,19 @@ as.POSIXct() #format: 2019-04-30 14:22:00
 
 ```r
 #base
-iris$Species &lt;- factor(iris$Species,
-*                      levels = c("virginica", "versicolor", "setosa"))
+penguins$Species &lt;- factor(penguins$species,
+*                      levels = c("Gentoo", "Chinstrap", "Adelie"))
 
 #dplyr (tidyverse)
-iris &lt;- iris %&gt;% 
-  mutate(Species = factor(Species, 
-*                         levels = c("virginica", "versicolor", "setosa")))
+penguins &lt;- penguins %&gt;% 
+  mutate(species = factor(species, 
+*                         levels = c("Gentoo", "Chinstrap", "Adelie")))
 
-levels(iris$Species) #check they are correct now
+levels(penguins$species) #check they are correct now
 ```
 
 ```
-## [1] "virginica"  "versicolor" "setosa"
+## [1] "Gentoo"    "Chinstrap" "Adelie"
 ```
 
 ---
@@ -448,6 +451,7 @@ class:inverse
 We'll continue adding to this r script throughout the class.
 
 Remember to annotate!
+
 
 ---
 class:inverse
@@ -473,81 +477,81 @@ layout: true
 ##A Minimal ggplot
 ---
 
-.left-code[
+.pull-left[
 
 ```r
-*ggplot(iris) 
+*ggplot(penguins) 
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres01_introduction_ggplot_files/figure-html/simpleplot_1a-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
-ggplot(iris) +
-* aes(x = Sepal.Width, 
-*     y = Sepal.Length) 
+ggplot(penguins) +
+* aes(x = flipper_length_mm, 
+*     y = body_mass_g) 
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres01_introduction_ggplot_files/figure-html/simpleplot_1b-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
-ggplot(iris) +
-  aes(x = Sepal.Width, 
-      y = Sepal.Length) + 
+ggplot(penguins) +
+  aes(x = flipper_length_mm, 
+      y = body_mass_g) +
 * geom_point() 
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres01_introduction_ggplot_files/figure-html/simpleplot_1c-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
-ggplot(iris) +
-  aes(x = Sepal.Width, 
-      y = Sepal.Length,
-*     color = Species) + 
+ggplot(penguins) +
+  aes(x = flipper_length_mm, 
+      y = body_mass_g, 
+*     color = species) + 
   geom_point()
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres01_introduction_ggplot_files/figure-html/simpleplot_1d-out-1.png" width="100%" /&gt;
 ]
 
 ---
 
-.left-code[
+.pull-left[
 
 ```r
-*p.miminal &lt;- ggplot(iris) + 
-  aes(x = Sepal.Width, 
-      y = Sepal.Length,
-      color = Species) + 
+*p.miminal &lt;- ggplot(penguins) + 
+  aes(x = flipper_length_mm, 
+      y = body_mass_g,
+      color = species) + 
   geom_point()
 
 *p.minimal 
 ```
 ]
 
-.right-plot[
+.pull-right[
 &lt;img src="pres01_introduction_ggplot_files/figure-html/simpleplot_1d-out-1.png" width="100%" /&gt;
 ]
 
@@ -642,30 +646,20 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
 })();
 (function() {
   "use strict"
-  /* Replace <script> tags in slides area to make them executable
-   *
-   * Runs after post-processing of markdown source into slides and replaces only
-   * <script>s on the last slide of continued slides using the .has-continuation
-   * class added by xaringan. Finally, any <script>s in the slides area that
-   * aren't executed are commented out.
-   */
+  // Replace <script> tags in slides area to make them executable
   var scripts = document.querySelectorAll(
-    '.remark-slides-area .remark-slide-container:not(.has-continuation) script'
+    '.remark-slides-area .remark-slide-container script'
   );
   if (!scripts.length) return;
   for (var i = 0; i < scripts.length; i++) {
     var s = document.createElement('script');
     var code = document.createTextNode(scripts[i].textContent);
     s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
     scripts[i].parentElement.replaceChild(s, scripts[i]);
-  }
-  var scriptsNotExecuted = document.querySelectorAll(
-    '.remark-slides-area .remark-slide-container.has-continuation script'
-  );
-  if (!scriptsNotExecuted.length) return;
-  for (var i = 0; i < scriptsNotExecuted.length; i++) {
-    var comment = document.createComment(scriptsNotExecuted[i].outerHTML)
-    scriptsNotExecuted[i].parentElement.replaceChild(comment, scriptsNotExecuted[i])
   }
 })();
 (function() {

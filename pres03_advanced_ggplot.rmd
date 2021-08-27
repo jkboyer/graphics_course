@@ -76,6 +76,8 @@ class:inverse
 
 ##`geom_...()` (annotation geoms)
 
+
+add something about direct labelling and maybe `ggrepel`
 ---
 ```{r echo=FALSE, out.width = "80%", fig.align='center'}
 knitr::include_graphics("./graphics_slides_files/example_figs/pres_RBT_condition_1999_2018.jpg") 
@@ -117,6 +119,8 @@ class: inverse
 ##`plot_grid()`
 ##`ggdraw()`
 
+
+Other packages: `patchwork`, `gridExtra`
 ---
 ```{r echo=FALSE, out.width = "60%", fig.align='center'}
 knitr::include_graphics("./graphics_slides_files/example_figs/recaptures_growth.png")
@@ -181,6 +185,16 @@ class: inverse
 ---
 background-image:url("graphics_slides_files/ggplot_extensions.PNG")
 #[Extensions](http://www.ggplot2-exts.org/gallery/)
+
+---
+class: inverse
+#Animate your plots
+##`install.packages(gganimate)`
+
+
+
+Other packages: `patchwork`, 
+---
 
 ---
 class:inverse

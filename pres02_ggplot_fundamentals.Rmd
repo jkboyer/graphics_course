@@ -56,9 +56,11 @@ mono_accent(
 ```
 
 ```{r load_packages_and_data, include=FALSE}
-library(ggplot2)
-library(tidyr)
-library(dplyr)
+library(tidyverse)
+library(palmerpenguins)
+
+#override the pretty xaringanthemer adjustments to ggplot default theme
+theme_xaringan_restore_defaults()
 ```
 
 ###`data`
@@ -75,74 +77,74 @@ layout: true
 ### A More complex ggplot
 ---
 
-.left-code[
+.pull-left[
 ```{r first-plot1a, eval=FALSE}
-ggplot(msleep)
+msleep %>% ggplot() #<<
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r first-plot1a-out, ref.label='first-plot1a', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r first-plot1b, eval=FALSE}
-ggplot(msleep,
+msleep %>% ggplot() +
   aes(x = bodywt, #<<
-      y = sleep_total)) #<<
+      y = sleep_total) #<<
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r first-plot1b-out, ref.label='first-plot1b', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r first-plot1c, eval=FALSE}
-ggplot(msleep,
-  aes(x = bodywt,
-      y = sleep_total)) +
+msleep %>% ggplot() +
+  aes(x = bodywt, 
+      y = sleep_total) +
   geom_point() #<<
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r first-plot1c-out, ref.label='first-plot1c', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r first-plot1d, eval=FALSE}
-ggplot(msleep,
-  aes(x = bodywt,
-      y = sleep_total)) +
+msleep %>% ggplot() +
+  aes(x = bodywt, 
+      y = sleep_total) +
   geom_point() +
   scale_x_log10("Weight (kg)") + #<<
-  scale_y_continuous("Hrs Sleep", #<<
+  scale_y_continuous("Hours Sleep", #<<
     limits = c(0, 20))  #<< 
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r first-plot1d-out, ref.label='first-plot1d', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r first-plot1e, eval=FALSE}
-ggplot(msleep,
-  aes(x = bodywt,
-      y = sleep_total)) +
+msleep %>% ggplot() +
+  aes(x = bodywt, 
+      y = sleep_total) +
   geom_point() +
   scale_x_log10("Weight (kg)") +
   scale_y_continuous(
@@ -152,29 +154,29 @@ ggplot(msleep,
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r first-plot1e-out, ref.label='first-plot1e', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r first-plot1f, eval=FALSE}
-ggplot(msleep,
-  aes(x = bodywt,
-      y = sleep_total)) +
+msleep %>% ggplot() +
+  aes(x = bodywt, 
+      y = sleep_total) +
   geom_point() +
   scale_x_log10("Weight (kg)") +
   scale_y_continuous(
     limits = c(0, 20),
     "Hours Sleep") +
   stat_smooth(method = "lm") + 
-  facet_wrap(~vore) #<<
+  facet_wrap(vars(vore)) #<<
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r first-plot1f-out, ref.label='first-plot1f', echo=FALSE, out.width="100%"}
 ```
 ]
@@ -182,32 +184,36 @@ ggplot(msleep,
 ---
 
 
-.left-code[
+.pull-left[
 ```{r first-plot1f2, eval=FALSE}
-ggplot(msleep[!is.na(msleep$vore),],  #<<
-  aes(x = bodywt,
-      y = sleep_total)) +
+msleep %>% 
+  filter(!is.na(vore)) %>% #<<
+  ggplot() +
+  aes(x = bodywt, 
+      y = sleep_total) +
   geom_point() +
   scale_x_log10("Weight (kg)") +
   scale_y_continuous(
     limits = c(0, 20),
     "Hours Sleep") +
   stat_smooth(method = "lm") + 
-  facet_wrap(~vore) 
+  facet_wrap(vars(vore)) 
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r first-plot1f2-out, ref.label='first-plot1f2', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r first-plot1g, eval=FALSE}
-ggplot(msleep[!is.na(msleep$vore),]) + 
-  aes(x = bodywt,
+msleep %>% 
+  filter(!is.na(vore)) %>%
+  ggplot() +
+  aes(x = bodywt, 
       y = sleep_total) +
   geom_point() +
   scale_x_log10("Weight (kg)") +
@@ -220,7 +226,7 @@ ggplot(msleep[!is.na(msleep$vore),]) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r first-plot1g-out, ref.label='first-plot1g', echo=FALSE, out.width="100%"}
 ```
 ]
@@ -258,7 +264,7 @@ summarize/group_by in tidyverse
 
 ```{r common-plot-types, out.width = "100%", fig.asp = 0.45, echo=FALSE}
 require(ggplot2)
-gpoint <- ggplot(iris, aes(Sepal.Width, Sepal.Length)) +
+gpoint <- ggplot(penguins, aes(body_mass_g, flipper_length_mm)) +
   geom_point() +
   scale_y_continuous(expand = expand_scale(mult = c(0.05, .25))) +
   theme_void() 
@@ -269,7 +275,7 @@ gline <- ggplot(economics[economics$date >= as.Date("2000-01-01"),],
   scale_y_continuous(expand = expand_scale(mult = c(0.05, .25))) +
   theme_void()
 
-gboxplot <- ggplot(iris, aes(Species, Sepal.Length)) +
+gboxplot <- ggplot(penguins, aes(species, flipper_length_mm)) +
   geom_boxplot() +
   scale_y_continuous(expand = expand_scale(mult = c(0.05, .25))) +
   theme_void()
@@ -384,7 +390,7 @@ order (reverse order, show how error bars hidden)
 ---
 #Adjust position
 ```{r position_adjustments, out.width = "40%", fig.asp = 0.7}
-ggplot(iris, aes(Species, Sepal.Length)) +
+ggplot(penguins, aes(species, flipper_length_mm)) +
   geom_jitter() 
 
 ```
@@ -473,7 +479,8 @@ Use one or more of the geoms and stats we learned about to start a plot you want
 It's ok to start several plots
 
 Make all plots objects in your r environment
-`my.plot <- ggplot(data, aes(...`  
+
+`my.plot <- data %>% ggplot(aes(...`  
 `my.plot`
 
 Don't worry if they are ugly or still missing features, we will continue working on these figures as we learn more 
@@ -641,7 +648,7 @@ graph with customized scales (log and custom color scale, legend)
 ---
 #coordinate systems
 
-`coord_cartesian()` 
+`coord_cartesian()` default
 
 `coord_fixed()`  
 `coord_polar()`  
@@ -715,8 +722,8 @@ ggplot(mpg, aes(fl, fill = drv)) +
 ```{r}
 require(RColorBrewer)
 
-ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
-  geom_point(aes(color = Species, shape = Species)) +
+ggplot(penguins, aes(x = body_mass_g, y = flipper_length_mm)) +
+  geom_point(aes(color = species, shape = species)) +
   scale_colour_brewer(palette = "Set1") + #<<
   scale_shape_manual(values = c(15, 16, 17)) #<<
 
@@ -784,7 +791,7 @@ layout: true
 ### `facet_wrap()`
 ---
 
-.left-code[
+.pull-left[
 ```{r facetwrap_1a, eval=FALSE}
 ggplot(mpg, aes(displ, hwy)) + 
   geom_point() +
@@ -792,14 +799,14 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r facetwrap_1a-out, ref.label='facetwrap_1a', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r facetwrap_2b, eval=FALSE}
 ggplot(mpg, aes(displ, hwy)) + 
   geom_point() +
@@ -808,14 +815,14 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r facetwrap_2b, ref.label='facetwrap_2b', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r facetwrap_3c, eval=FALSE}
 ggplot(mpg, aes(displ, hwy)) + 
   geom_point() +
@@ -824,7 +831,7 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r facetwrap_3c, ref.label='facetwrap_3c', echo=FALSE, out.width="100%"}
 ```
 ]
@@ -834,7 +841,7 @@ layout: true
 ### `facet_grid()`
 ---
 
-.left-code[
+.pull-left[
 ```{r facetgrid_1, eval=FALSE}
 ggplot(mpg, aes(displ, hwy)) + 
   geom_point() +
@@ -842,14 +849,14 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r facetgrid_1-out, ref.label='facetgrid_1', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r facetgrid_2, eval=FALSE}
 ggplot(mpg, aes(displ, hwy)) + 
   geom_point() +
@@ -858,14 +865,14 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r facetgrid_2-out, ref.label='facetgrid_2', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r facetgrid_3, eval=FALSE}
 ggplot(mpg, aes(displ, hwy)) + 
   geom_point() +
@@ -875,14 +882,14 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r facetgrid_3-out, ref.label='facetgrid_3', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r facetgrid_4, eval=FALSE}
 ggplot(mpg, aes(displ, hwy)) + 
   geom_point() +
@@ -892,14 +899,14 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r facetgrid_4-out, ref.label='facetgrid_4', echo=FALSE, out.width="100%"}
 ```
 ]
 
 ---
 
-.left-code[
+.pull-left[
 ```{r facetgrid_5, eval=FALSE}
 ggplot(mpg, aes(displ, hwy)) + 
   geom_point() +
@@ -909,7 +916,7 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 ]
 
-.right-plot[
+.pull-right[
 ```{r facetgrid_5-out, ref.label='facetgrid_5', echo=FALSE, out.width="100%"}
 ```
 ]
@@ -970,7 +977,7 @@ light <- p + theme_light(base_size = 10) +
 cowplot::plot_grid(classic,  minimal, bw, light, nrow = 2)
 
 ```
-[All built in themes](https://ggplot2.tidyverse.org/reference/index.html#section-themes) [Extensions for more themes](https://www.ggplot2-exts.org/gallery/)
+[All built in themes;](https://ggplot2.tidyverse.org/reference/index.html#section-themes) [Extensions for more themes](https://www.ggplot2-exts.org/gallery/)
 
 ???
 quickly make pretty nice plots
@@ -982,7 +989,7 @@ Can adjust base_size and base_family
 ```{r eval=FALSE}
 + theme(panel_background = element_rect(color = "red"), #<<
         axis.title.x = element_text(size = 16, color = "blue"), #<<
-        legend_position = c(0.9, 0.9))
+        legend_position = c(0.9, 0.9)) 
 ```
 
 --
